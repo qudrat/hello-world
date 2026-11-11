@@ -24,7 +24,8 @@ python hello.py
 ## Reliz qilish
 
 Versiya `VERSION` faylida saqlanadi va `index.html` dagi ko'rsatkich shundan
-yangilanadi. Yangi reliz uchun:
+yangilanadi. Sahifa ochilganda eng so'nggi reliz raqami GitHub API'dan avtomatik
+olinadi (internet yo'q bo'lsa, oxirgi yozilgan qiymat ko'rinadi). Yangi reliz uchun:
 
 ```bash
 python release.py patch    # 1.1.0 -> 1.1.1

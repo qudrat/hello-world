@@ -10,7 +10,8 @@ Two independent "Hello, World!" demos: `hello.py` (Python) and `index.html` (sta
 - No test/lint step exists; confirming script output and page rendering is the only check.
 
 ## Versioning
-- `VERSION` (plain semver, e.g. `1.1.0`) is the single source of truth. `hello.py` reads it at runtime; `index.html` gets it stamped into `<span class="version-number">`.
+- `VERSION` (plain semver, e.g. `1.1.0`) is the single source of truth. `hello.py` reads it at runtime; `index.html` gets it stamped into `<span class="version-number">` as an offline fallback.
+- `index.html` also fetches the latest release from `api.github.com/repos/qudrat/hello-world/releases/latest` on load and overwrites that badge. Keep the `<span class="version-number">` element — `release.py` rewrites it and the script targets it.
 - `release.py` bumps `VERSION`, updates `index.html`, commits `Release vX.Y.Z`, tags, pushes `main` + tag, and runs `gh release create`. It refuses to run on a dirty tree or off `main`; `--dry-run` previews, `--skip-release` stops before GitHub.
 - Never hand-edit version strings in `index.html`; run the script instead so the tag, `VERSION`, and page stay in sync.
 - Git tags are `vX.Y.Z` (annotated). Note the historical `v1.0` tag predates semver and has no `VERSION` equivalent.

@@ -46,5 +46,28 @@
     <p>GitHub Pages orqali jonli sayt</p>
     <p class="version"><span class="version-number">v1.1.0</span></p>
   </div>
+  <script>
+    // Eng so'nggi reliz raqamini GitHub API'dan avtomatik olib kelamiz.
+    // So'rov muvaffaqiyatsiz bo'lsa, release.py yozgan statik qiymat qoladi.
+    (function () {
+      var target = document.querySelector(".version-number");
+      if (!target || !window.fetch) return;
+      fetch("https://api.github.com/repos/qudrat/hello-world/releases/latest", {
+        headers: { Accept: "application/vnd.github+json" }
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          return response.json();
+        })
+        .then(function (release) {
+          if (!release || !release.tag_name) return;
+          target.textContent = release.tag_name;
+          target.title = release.name || release.tag_name;
+        })
+        .catch(function () {
+          /* statik qiymat qoladi */
+        });
+    })();
+  </script>
 </body>
 </html>
