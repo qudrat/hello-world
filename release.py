@@ -107,8 +107,10 @@ def changelog(since: str | None) -> str:
     args = ["log", "--pretty=format:- %s", "--reverse"]
     if since:
         args.append(f"{since}..HEAD")
-    entries = git_output(*args).strip()
-    return entries or "- O'zgarishlar yo'q"
+    entries = git_output(*args).splitlines()
+    # Reliz commit'larining o'zi changelog'ga tushmasin.
+    entries = [line for line in entries if line.strip() and not line.startswith("- Release v")]
+    return "\n".join(entries) or "- O'zgarishlar yo'q"
 
 
 def main() -> int:
@@ -153,6 +155,8 @@ def main() -> int:
     write_version(version)
     stamp_index(version)
 
+    since = previous_tag()
+
     run("git", "add", "VERSION", "index.html")
     run("git", "commit", "-m", f"Release {tag}")
     run("git", "tag", "-a", tag, "-m", f"Reliz {tag}")
@@ -160,7 +164,7 @@ def main() -> int:
     run("git", "push", "origin", tag)
 
     if not args.skip_release:
-        notes = f"Reliz {tag}\n\n{changelog(previous_tag())}\n"
+        notes = f"Reliz {tag}\n\n{changelog(since)}\n"
         with tempfile.NamedTemporaryFile(
             "w", suffix=".md", delete=False, encoding="utf-8", newline="\n"
         ) as handle:
