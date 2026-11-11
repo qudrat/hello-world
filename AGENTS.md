@@ -9,6 +9,11 @@ Two independent "Hello, World!" demos: `hello.py` (Python) and `index.html` (sta
 - Release: `python release.py patch|minor|major|X.Y.Z` (see below)
 - No test/lint step exists; confirming script output and page rendering is the only check.
 
+## Deploy
+- Live site: https://qudrat.github.io/hello-world/ — deployed by `.github/workflows/pages.yml` on every push to `main`.
+- Pages is configured with `build_type: workflow`; the legacy Jekyll builder failed repeatedly ("Page build failed." at 0s). Do not switch the Pages source back to "Deploy from a branch".
+- The workflow publishes only `index.html` (copied into `_site`), so `README.md`, `release.py`, etc. are not exposed publicly. Add any new site asset to that copy step.
+
 ## Versioning
 - `VERSION` (plain semver, e.g. `1.1.0`) is the single source of truth. `hello.py` reads it at runtime; `index.html` gets it stamped into `<span class="version-number">` as an offline fallback.
 - `index.html` also fetches the latest release from `api.github.com/repos/qudrat/hello-world/releases/latest` on load and overwrites that badge. Keep the `<span class="version-number">` element — `release.py` rewrites it and the script targets it.

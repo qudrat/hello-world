@@ -16,6 +16,9 @@ Minimal "Hello, World!" namunalari — Python va HTML.
 ### HTML
 `index.html` faylini brauzerda oching — hech qanday o'rnatish kerak emas.
 
+Jonli sayt: https://qudrat.github.io/hello-world/ — `main` branch'ga har bir
+push'da GitHub Actions orqali avtomatik yangilanadi.
+
 ### Python
 ```bash
 python hello.py
